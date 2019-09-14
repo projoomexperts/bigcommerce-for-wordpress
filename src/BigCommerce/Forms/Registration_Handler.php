@@ -47,6 +47,13 @@ class Registration_Handler implements Form_Handler {
 		// create the user
 		// be sure to trim the email down to 60 characters to meet WP table limits for username
 		$user_id = wp_create_user( mb_substr( $profile[ 'email' ], 0, 60 ), $password, $profile[ 'email' ] );
+		
+		if ( !empty( $submission[ 'bc-register' ][ 'first_name' ] ) ) {
+			update_user_meta( $user_id, "first_name",  $submission[ 'bc-register' ][ 'first_name' ] ) ;
+		}
+		if ( !empty( $submission[ 'bc-register' ][ 'last_name' ] ) ) {
+			update_user_meta( $user_id, "last_name",  $submission[ 'bc-register' ][ 'last_name' ] ) ;
+		}
 
 		if ( is_wp_error( $user_id ) ) {
 			switch ( $user_id->get_error_code() ) {
